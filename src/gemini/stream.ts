@@ -20,7 +20,6 @@ export function createOpenAIStreamFromGemini(
           .read()
           .then(({ done, value }) => {
             if (done) {
-              // flush remaining buffer
               if (buffer.trim()) {
                 processLine(buffer.trim(), chunkId, model, controller, encoder);
               }
@@ -31,7 +30,6 @@ export function createOpenAIStreamFromGemini(
 
             buffer += decoder.decode(value, { stream: true });
             const lines = buffer.split("\n");
-            // keep the last incomplete line in buffer
             buffer = lines.pop() ?? "";
 
             for (const line of lines) {
@@ -65,13 +63,11 @@ function processLine(
   if (!json || json === "[DONE]") return;
 
   try {
-    // Cloud Code Assist wraps the response: { response: GeminiResponse }
     const parsed = JSON.parse(json) as Record<string, unknown>;
     const geminiBody = (parsed["response"] ?? parsed) as GeminiResponse;
 
     const chunk = geminiChunkToOpenAI(geminiBody, model, chunkId);
     controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`));
   } catch {
-    // malformed SSE line — skip silently
   }
 }

@@ -24,7 +24,6 @@ export function clearTokenStore(): void {
   try {
     writeFileSync(getStorePath(), "", "utf8");
   } catch {
-    // file may not exist
   }
 }
 

@@ -96,7 +96,6 @@ chatRoutes.post("/v1/chat/completions", async (c) => {
   }
 
   const geminiJson = (await geminiResponse.json()) as Record<string, unknown>;
-  // Cloud Code Assist wraps the response body under a "response" key
   const inner = (geminiJson["response"] ?? geminiJson) as import("../types").GeminiResponse;
   const completion = geminiResponseToOpenAI(inner, openAiRequest.model);
   return c.json(completion);

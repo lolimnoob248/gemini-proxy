@@ -15,10 +15,8 @@ export function createApp(): Hono {
     );
   });
 
-  // Auth routes are public — no API key required
   app.route("/", authRoutes);
 
-  // All AI routes require the static API key
   app.use("/v1/*", requireApiKey);
   app.route("/", chatRoutes);
   app.route("/", modelRoutes);

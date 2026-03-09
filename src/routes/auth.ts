@@ -16,12 +16,22 @@ h1{color:#1a73e8;margin:0 0 12px}p{color:#555;margin:0}</style></head>
 const ERROR_HTML = (msg: string) =>
   `<!DOCTYPE html><html><body><h1>Authentication failed</h1><p>${msg}</p></body></html>`;
 
+const authEndpointsDisabled = (): boolean => process.env["DISABLE_AUTH_ENDPOINTS"] === "true";
+
 authRoutes.get("/auth/login", async (c) => {
+  if (authEndpointsDisabled()) {
+    return c.json({ error: { message: "Not found", type: "invalid_request_error", code: "not_found" } }, 404);
+  }
+
   const { url } = await buildAuthorizationUrl();
   return c.redirect(url);
 });
 
 authRoutes.get("/auth/callback", async (c) => {
+  if (authEndpointsDisabled()) {
+    return c.json({ error: { message: "Not found", type: "invalid_request_error", code: "not_found" } }, 404);
+  }
+
   const code = c.req.query("code");
   const state = c.req.query("state");
   const error = c.req.query("error");

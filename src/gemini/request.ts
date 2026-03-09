@@ -89,9 +89,11 @@ function convertMessages(messages: OpenAIMessage[]): {
 
   for (const message of messages) {
     if (message.role === "system") {
-      const text = typeof message.content === "string" ? message.content : extractTextContent(message.content);
-      if (text) {
-        systemInstruction = { parts: [{ text }] };
+      if (!systemInstruction) {
+        const text = typeof message.content === "string" ? message.content : extractTextContent(message.content);
+        if (text) {
+          systemInstruction = { parts: [{ text }] };
+        }
       }
       continue;
     }
@@ -119,7 +121,6 @@ function convertMessages(messages: OpenAIMessage[]): {
     }
   }
 
-  // Gemini requires alternating user/model turns — merge consecutive same-role turns
   return { contents: mergeConsecutiveTurns(contents), systemInstruction };
 }
 

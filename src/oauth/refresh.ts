@@ -43,7 +43,6 @@ async function doRefresh(refreshToken: string): Promise<TokenRefreshResult> {
     return {
       ok: true,
       accessToken: payload.access_token,
-      // Google may rotate the refresh token; fall back to the original if not
       refreshToken: payload.refresh_token ?? refreshToken,
       expiresAt: Date.now() + payload.expires_in * 1000,
     };
