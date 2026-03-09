@@ -1,0 +1,17 @@
+{
+  "name": "gemini-proxy",
+  "version": "1.0.0",
+  "description": "OpenAI-compatible API proxy for Google Gemini via OAuth (Cloud Code Assist)",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
