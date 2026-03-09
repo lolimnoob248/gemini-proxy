@@ -15,7 +15,7 @@ export function createApp(): Hono {
     );
   });
 
-  app.use("/auth/*", requireApiKey);
+  app.use("/auth/status", requireApiKey);
   app.route("/", authRoutes);
 
   app.use("/v1/*", requireApiKey);
