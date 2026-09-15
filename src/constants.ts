@@ -44,5 +44,5 @@ export function getServerPort(): number {
 }
 
 export function getCallbackUrl(): string {
-  return `http://localhost:${getServerPort()}/auth/callback`;
+  return `https://gemini-proxy-84mb.onrender.com/auth/callback`;
 }
